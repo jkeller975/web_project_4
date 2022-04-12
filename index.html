@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Around The U.S.</title>
+    <meta name="description" content="Around the U.S. website" />
+    <meta name="author" content="Josh Keller" />
+    <meta name="keywords" content="HTML, CSS, JS" />
+    <link rel="stylesheet" href="./pages/index.css" />
+  </head>
+  <body class="page">
+    <div class="page__content">
+      <header class="header">
+        <span class="header__image"></span>
+      </header>
+      <section class="profile">
+        <img
+          src="./images/Jacques.jpg"
+          class="profile__image"
+          alt="Profile Image"
+        />
+        <div class="profile__info">
+          <div class="profile__name-edit">
+            <p class="profile__name">Jacques Cousteau</p>
+            <button class="profile__edit-button"></button>
+          </div>
+          <p class="profile__description">Explorer</p>
+        </div>
+        <button class="profile__add"></button>
+        <div class="popup">
+          <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <h3 class="popup__title">Edit Profile</h3>
+            <form class="popup__form" name="new">
+              <input
+                type="text"
+                name="name"
+                class="popup__input popup__input_type_name"
+                placeholder="Name"
+              />
+              <input
+                type="text"
+                name="description"
+                class="popup__input popup__input_type_description"
+                placeholder="About me"
+              />
+              <button type="submit" class="button popup__button">Save</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <section class="elements">
+        <ul class="elements__list">
+          <li class="elements__list-item">
+            <img
+              class="elements__item"
+              src="./images/Yosemite.jpg"
+              alt="Yosemite"
+            />
+            <div class="element__description">
+              <h2 class="element__text">Yosemite Valley</h2>
+              <span class="element__like">
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img
+              class="elements__item"
+              src="./images/Lake.jpg"
+              alt="Lake Louise"
+            />
+            <div class="element__description">
+              <h2 class="element__text">Lake Louise</h2>
+              <span class="element__like">
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img
+              class="elements__item"
+              src="./images/Bald.jpg"
+              alt="Bald Mountains"
+            />
+            <div class="element__description">
+              <h2 class="element__text">Bald Mountains</h2>
+              <span class="element__like">
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img
+              class="elements__item"
+              src="./images/Latemar.jpg"
+              alt="Latemar"
+            />
+            <div class="element__description">
+              <h2 class="element__text">Latemar</h2>
+              <span class="element__like">
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img
+              class="elements__item"
+              src="./images/Vanoise.jpg"
+              alt="Vanoise National Park"
+            />
+            <div class="element__description">
+              <h2 class="element__text">Vanoise National Park</h2>
+              <span class="element__like">
+            </div>
+          </li>
+          <li class="elements__list-item">
+            <img
+              class="elements__item"
+              src="./images/Lago.jpg"
+              alt="Lago di Braies"
+            />
+            <div class="element__description">
+              <h2 class="element__text">Lago di Braies</h2>
+              <span class="element__like">
+            </div>
+          </li>
+        </ul>
+      </section>
+      <footer class="footer">
+        <p class="footer__text">© 2022 Around The U.S.</p>
+      </footer>
+    </div>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
