@@ -23,9 +23,6 @@
   .footer {
     width: 100%;
   }
-}
-
-@media screen and (max-width: 730px) {
   .footer__text {
     font-size: 14px;
     line-height: 1.21;

@@ -10,11 +10,11 @@ const descriptionInputField = editForm.querySelector(
 );
 
 function removeModalVisibility() {
-  modalWindow.classList.remove("popup__opened");
+  modalWindow.classList.remove("popup_opened");
 }
 
 function addModalVisibility() {
-  modalWindow.classList.add("popup__opened");
+  modalWindow.classList.add("popup_opened");
   nameInputField.value = profileName.textContent;
   descriptionInputField.value = profileDescription.textContent;
 }

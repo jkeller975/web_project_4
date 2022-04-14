@@ -13,117 +13,119 @@
   <body class="page">
     <div class="page__content">
       <header class="header">
-        <span class="header__image"></span>
+        <div class="header__image"></siv>
       </header>
-      <section class="profile">
-        <img
-          src="./images/Jacques.jpg"
-          class="profile__image"
-          alt="Profile Image"
-        />
-        <div class="profile__info">
-          <div class="profile__name-edit">
-            <p class="profile__name">Jacques Cousteau</p>
-            <button class="profile__edit-button"></button>
+      <main>
+        <section class="profile">
+          <img
+            src="./images/Jacques.jpg"
+            class="profile__image"
+            alt="Profile Image"
+          />
+          <div class="profile__info">
+            <div class="profile__name-edit">
+              <h2 class="profile__name">Jacques Cousteau</h2>
+              <button class="profile__edit-button" type="button"></button>
+            </div>
+            <p class="profile__description">Explorer</p>
           </div>
-          <p class="profile__description">Explorer</p>
-        </div>
-        <button class="profile__add"></button>
-        <div class="popup">
-          <div class="popup__container">
-            <button class="popup__close" type="button"></button>
-            <h3 class="popup__title">Edit Profile</h3>
-            <form class="popup__form" name="new">
-              <input
-                type="text"
-                name="name"
-                class="popup__input popup__input_type_name"
-                placeholder="Name"
+          <button class="profile__add" type="button"></button>
+        </section>
+        <section class="elements">
+          <ul class="elements__list">
+            <li class="card">
+              <img
+                class="card__item"
+                src="./images/Yosemite.jpg"
+                alt="Yosemite"
               />
-              <input
-                type="text"
-                name="description"
-                class="popup__input popup__input_type_description"
-                placeholder="About me"
+              <div class="card__description">
+                <h2 class="card__text">Yosemite Valley</h2>
+                <button class="card__like" type="button"></button>
+              </div>
+            </li>
+            <li class="card">
+              <img
+                class="card__item"
+                src="./images/Lake.jpg"
+                alt="Lake Louise"
               />
-              <button type="submit" class="button popup__button">Save</button>
-            </form>
-          </div>
-        </div>
-      </section>
-      <section class="elements">
-        <ul class="elements__list">
-          <li class="elements__list-item">
-            <img
-              class="elements__item"
-              src="./images/Yosemite.jpg"
-              alt="Yosemite"
-            />
-            <div class="element__description">
-              <h2 class="element__text">Yosemite Valley</h2>
-              <span class="element__like">
-            </div>
-          </li>
-          <li class="elements__list-item">
-            <img
-              class="elements__item"
-              src="./images/Lake.jpg"
-              alt="Lake Louise"
-            />
-            <div class="element__description">
-              <h2 class="element__text">Lake Louise</h2>
-              <span class="element__like">
-            </div>
-          </li>
-          <li class="elements__list-item">
-            <img
-              class="elements__item"
-              src="./images/Bald.jpg"
-              alt="Bald Mountains"
-            />
-            <div class="element__description">
-              <h2 class="element__text">Bald Mountains</h2>
-              <span class="element__like">
-            </div>
-          </li>
-          <li class="elements__list-item">
-            <img
-              class="elements__item"
-              src="./images/Latemar.jpg"
-              alt="Latemar"
-            />
-            <div class="element__description">
-              <h2 class="element__text">Latemar</h2>
-              <span class="element__like">
-            </div>
-          </li>
-          <li class="elements__list-item">
-            <img
-              class="elements__item"
-              src="./images/Vanoise.jpg"
-              alt="Vanoise National Park"
-            />
-            <div class="element__description">
-              <h2 class="element__text">Vanoise National Park</h2>
-              <span class="element__like">
-            </div>
-          </li>
-          <li class="elements__list-item">
-            <img
-              class="elements__item"
-              src="./images/Lago.jpg"
-              alt="Lago di Braies"
-            />
-            <div class="element__description">
-              <h2 class="element__text">Lago di Braies</h2>
-              <span class="element__like">
-            </div>
-          </li>
-        </ul>
-      </section>
+              <div class="card__description">
+                <h2 class="card__text">Lake Louise</h2>
+                <button class="card__like" type="button"></button>
+              </div>
+            </li>
+            <li class="card">
+              <img
+                class="card__item"
+                src="./images/Bald.jpg"
+                alt="Bald Mountains"
+              />
+              <div class="card__description">
+                <h2 class="card__text">Bald Mountains</h2>
+                <button class="card__like" type="button"></button>
+              </div>
+            </li>
+            <li class="card">
+              <img
+                class="card__item"
+                src="./images/Latemar.jpg"
+                alt="Latemar"
+              />
+              <div class="card__description">
+                <h2 class="card__text">Latemar</h2>
+                <button class="card__like" type="button"></button>
+              </div>
+            </li>
+            <li class="card">
+              <img
+                class="card__item"
+                src="./images/Vanoise.jpg"
+                alt="Vanoise National Park"
+              />
+              <div class="card__description">
+                <h2 class="card__text">Vanoise National Park</h2>
+                <button class="card__like" type="button"></button>
+              </div>
+            </li>
+            <li class="card">
+              <img
+                class="card__item"
+                src="./images/Lago.jpg"
+                alt="Lago di Braies"
+              />
+              <div class="card__description">
+                <h2 class="card__text">Lago di Braies</h2>
+                <button class="card__like" type="button"></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
       <footer class="footer">
         <p class="footer__text">© 2022 Around The U.S.</p>
       </footer>
+    </div>
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__close" type="button"></button>
+        <h3 class="popup__title">Edit Profile</h3>
+        <form class="popup__form" name="new">
+          <input
+            type="text"
+            name="name"
+            class="popup__input popup__input_type_name"
+            placeholder="Name"
+          />
+          <input
+            type="text"
+            name="description"
+            class="popup__input popup__input_type_description"
+            placeholder="About me"
+          />
+          <button type="submit" class="button popup__button">Save</button>
+        </form>
+      </div>
     </div>
     <script src="./scripts/index.js"></script>
   </body>
