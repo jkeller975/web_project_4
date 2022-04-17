@@ -17,12 +17,12 @@
   .footer {
     width: 100%;
   }
+  .footer__text {
+    margin-left: 27px;
+  }
 }
 
 @media screen and (max-width: 730px) {
-  .footer {
-    width: 100%;
-  }
   .footer__text {
     font-size: 14px;
     line-height: 1.21;
