@@ -30,6 +30,7 @@
 
 .card__like {
   background-image: url(../images/Like_disabled.svg);
+  background-color: transparent;
   width: 100%;
   max-width: 21px;
   height: 19px;
