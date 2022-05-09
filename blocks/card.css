@@ -2,6 +2,7 @@
   background-color: white;
   border-radius: 10px;
   width: 282px;
+  position: relative;
 }
 
 .card__item {
@@ -40,4 +41,25 @@
 
 .card__like:hover {
   opacity: 0.5;
+}
+
+.card__like_active {
+  background-image: url(../images/Like_active.svg);
+  height: 100px;
+}
+
+.card__delete {
+  background-image: url(../images/delete.svg);
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  left: 249px;
+  top: 18px;
+}
+
+.card__delete:hover {
+  opacity: 0.6;
 }

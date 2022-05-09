@@ -39,11 +39,11 @@
         <p class="footer__text">© 2022 Around The U.S.</p>
       </footer>
     </div>
-    <div class="popup">
+    <div class="popup" id="edit-profile-popup">
       <div class="popup__container">
         <button class="popup__close" type="button"></button>
         <h3 class="popup__title">Edit Profile</h3>
-        <form class="popup__form" name="new">
+        <form class="popup__form popup__form_type_profile" name="edit-profile">
           <input
             type="text"
             name="name"
@@ -60,8 +60,37 @@
         </form>
       </div>
     </div>
+    <div class="popup" id="add-card-popup">
+      <div class="popup__container">
+        <button class="popup__close" type="button"></button>
+        <h3 class="popup__title">New place</h3>
+        <form class="popup__form .popup__form_type_place" name="add-card">
+          <input
+            type="text"
+            name="url"
+            class="popup__input popup__input_type_link"
+            placeholder="Image link"
+          />
+          <input
+            type="text"
+            name="title"
+            class="popup__input popup__input_type_title"
+            placeholder="Title"
+          />
+          <button type="submit" class="button popup__button">Create</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup" id="image-popup">
+      <div class="popup__container popup__content_type_image">
+        <button class="popup__close" type="button"></button>
+        <img class="popup__image" src="" alt="" />
+        <p class="popup__caption"></p>
+      </div>
+    </div>
     <template id="card-template">
       <li class="card">
+        <button class="card__delete" type="button"></button>
         <img class="card__item" src="" alt="" />
         <div class="card__description">
           <h2 class="card__text"></h2>
