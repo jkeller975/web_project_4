@@ -29,7 +29,7 @@ const editProfileModal = document.querySelector("#edit-profile-popup");
 const addCardModal = document.querySelector("#add-card-popup");
 const imageModal = document.querySelector("#image-popup");
 const editProfileForm = document.querySelector(".popup__form_type_profile");
-const editPlaceForm = document.querySelector(".popup__form_type_place");
+const createPlaceForm = document.querySelector(".popup__form_type_place");
 const modalImageElement = imageModal.querySelector(".popup__image");
 const modalCaption = imageModal.querySelector(".popup__caption");
 const editButton = document.querySelector(".profile__edit-button");
@@ -75,14 +75,13 @@ function editProfileFormSubmitHandler(e) {
 
 editProfileForm.addEventListener("submit", editProfileFormSubmitHandler);
 
-// function editPlaceFormSubmitHandler(evt) {
+// function createPlaceFormSubmitHandler(evt) {
 //   evt.preventDefault();
-//    profileName.textContent = nameInputField.value;
-//    profileDescription.textContent = descriptionInputField.value;
+//
 //    removeModalVisibility(addCardModal);
 // }
 
-//  editPlaceForm.addEventListener("submit", editPlaceFormSubmitHandler);
+//  createPlaceForm.addEventListener("submit", createPlaceFormSubmitHandler);
 
 editButton.addEventListener("click", () => {
   addModalVisibility(editProfileModal);
