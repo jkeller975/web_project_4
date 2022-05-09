@@ -35,7 +35,7 @@ const modalCaption = imageModal.querySelector(".popup__caption");
 const editButton = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add");
 const closeButtons = document.querySelectorAll(".popup__close");
-const likeButton = document.querySelector(".card__like");
+
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -101,9 +101,18 @@ function createCard(data) {
   const card = cardTemplate.content.querySelector(".card").cloneNode(true);
   const imageElement = card.querySelector(".card__item");
   const titleElement = card.querySelector(".card__text");
-
+  const likeButton = card.querySelector(".card__like");
+  const deleteButton = card.querySelector(".card__delete");
   imageElement.src = data.link;
   titleElement.textContent = data.name;
+
+  likeButton.addEventListener("click", (evt) => {
+    evt.target.classList.toggle("card__like_active");
+  });
+
+  deleteButton.addEventListener("click", (evt) => {
+    evt.target.parentElement.remove();
+  });
 
   imageElement.addEventListener("click", () => {
     modalImageElement.src = data.link;
@@ -124,14 +133,4 @@ function renderCard(data) {
 
 initialCards.forEach((cardData) => {
   renderCard(cardData);
-});
-
-function toggleLikeButton() {
-  if (!likeButton.classList.contains("card__like_active")) {
-    likeButton.classList.toggle("card__like_active");
-  }
-}
-
-likeButton.addEventListener("click", () => {
-  toggleLikeButton();
 });
