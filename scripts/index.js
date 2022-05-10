@@ -103,6 +103,7 @@ function createCard(data) {
   const likeButton = card.querySelector(".card__like");
   const deleteButton = card.querySelector(".card__delete");
   imageElement.src = data.link;
+  imageElement.alt = data.name;
   titleElement.textContent = data.name;
 
   likeButton.addEventListener("click", (evt) => {
