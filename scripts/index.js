@@ -1,27 +1,27 @@
 const initialCards = [
   {
-    name: "Yosemite Valley",
-    link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
-  },
-  {
-    name: "Lake Louise",
-    link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
-  },
-  {
-    name: "Bald Mountains",
-    link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://code.s3.yandex.net/web-code/latemar.jpg",
+    name: "Lago di Braies",
+    link: "https://code.s3.yandex.net/web-code/lago.jpg",
   },
   {
     name: "Vanoise National Park",
     link: "https://code.s3.yandex.net/web-code/vanoise.jpg",
   },
   {
-    name: "Lago di Braies",
-    link: "https://code.s3.yandex.net/web-code/lago.jpg",
+    name: "Latemar",
+    link: "https://code.s3.yandex.net/web-code/latemar.jpg",
+  },
+  {
+    name: "Bald Mountains",
+    link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
+  },
+  {
+    name: "Lake Louise",
+    link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
+  },
+  {
+    name: "Yosemite Valley",
+    link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
   },
 ];
 
@@ -44,12 +44,8 @@ const descriptionInputField = editProfileForm.querySelector(
   ".popup__input_type_description"
 );
 
-// const imageInputField = editProfileForm.querySelector(
-//   ".popup__input_type_link"
-// );
-// const titleInputField = editProfileForm.querySelector(
-//   ".popup__input_type_title"
-// );
+const imageInputField = addCardModal.querySelector(".popup__input_type_link");
+const titleInputField = addCardModal.querySelector(".popup__input_type_title");
 
 const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".elements__list");
@@ -75,13 +71,17 @@ function editProfileFormSubmitHandler(e) {
 
 editProfileForm.addEventListener("submit", editProfileFormSubmitHandler);
 
-// function createPlaceFormSubmitHandler(evt) {
-//   evt.preventDefault();
-//
-//    removeModalVisibility(addCardModal);
-// }
+function createPlaceFormSubmitHandler(evt) {
+  evt.preventDefault();
+  const newCard = {
+    link: imageInputField.value,
+    name: titleInputField.value,
+  };
+  renderCard(newCard);
+  removeModalVisibility(addCardModal);
+}
 
-//  createPlaceForm.addEventListener("submit", createPlaceFormSubmitHandler);
+createPlaceForm.addEventListener("submit", createPlaceFormSubmitHandler);
 
 editButton.addEventListener("click", () => {
   addModalVisibility(editProfileModal);

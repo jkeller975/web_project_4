@@ -24,6 +24,7 @@
 .popup__container {
   background-color: white;
   width: 430px;
+  height: 330px;
   padding: 0;
   border-radius: 10px;
   position: relative;
@@ -148,4 +149,8 @@
 .popup__image {
   object-fit: cover;
   max-width: 100%;
+}
+
+.popup__input_type_title {
+  margin-bottom: 30px;
 }
