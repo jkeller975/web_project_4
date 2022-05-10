@@ -116,6 +116,7 @@ function createCard(data) {
 
   imageElement.addEventListener("click", () => {
     modalImageElement.src = data.link;
+    modalImageElement.alt = data.name;
     modalCaption.textContent = data.name;
     addModalVisibility(imageModal);
   });
