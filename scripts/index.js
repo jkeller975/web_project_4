@@ -50,23 +50,19 @@ const titleInputField = addCardModal.querySelector(".popup__input_type_title");
 const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".elements__list");
 
-function removeModalVisibility(modal) {
+function hideModal(modal) {
   modal.classList.remove("popup_opened");
 }
 
-function addModalVisibility(modal) {
+function showModal(modal) {
   modal.classList.add("popup_opened");
-  if (modal === editProfileModal) {
-    nameInputField.value = profileName.textContent;
-    descriptionInputField.value = profileDescription.textContent;
-  }
 }
 
 function editProfileFormSubmitHandler(e) {
   e.preventDefault();
   profileName.textContent = nameInputField.value;
   profileDescription.textContent = descriptionInputField.value;
-  removeModalVisibility(editProfileModal);
+  hideModal(editProfileModal);
 }
 
 editProfileForm.addEventListener("submit", editProfileFormSubmitHandler);
@@ -78,21 +74,29 @@ function createPlaceFormSubmitHandler(evt) {
     name: titleInputField.value,
   };
   renderCard(newCard);
-  removeModalVisibility(addCardModal);
+  hideModal(addCardModal);
+  createPlaceForm.reset();
 }
 
 createPlaceForm.addEventListener("submit", createPlaceFormSubmitHandler);
 
 editButton.addEventListener("click", () => {
-  addModalVisibility(editProfileModal);
+  showModal(editProfileModal);
+  fillProfileForm();
 });
+
+function fillProfileForm() {
+  nameInputField.value = profileName.textContent;
+  descriptionInputField.value = profileDescription.textContent;
+}
+
 addButton.addEventListener("click", () => {
-  addModalVisibility(addCardModal);
+  showModal(addCardModal);
 });
 closeButtons.forEach((closeButton) => {
   closeButton.addEventListener("click", (event) => {
     const popup = closeButton.closest(".popup");
-    removeModalVisibility(popup);
+    hideModal(popup);
   });
 });
 
@@ -107,18 +111,26 @@ function createCard(data) {
   titleElement.textContent = data.name;
 
   likeButton.addEventListener("click", (evt) => {
-    evt.target.classList.toggle("card__like_active");
+    toggleLikeButton(evt);
   });
 
+  function toggleLikeButton(evt) {
+    evt.target.classList.toggle("card__like_active");
+  }
+
   deleteButton.addEventListener("click", (evt) => {
-    evt.target.parentElement.remove();
+    deleteCard(evt);
   });
+
+  function deleteCard(evt) {
+    evt.target.parentElement.remove();
+  }
 
   imageElement.addEventListener("click", () => {
     modalImageElement.src = data.link;
     modalImageElement.alt = data.name;
     modalCaption.textContent = data.name;
-    addModalVisibility(imageModal);
+    showModal(imageModal);
   });
 
   return card;
