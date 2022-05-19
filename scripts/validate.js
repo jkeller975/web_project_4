@@ -1,3 +1,12 @@
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visable",
+};
+
 const showInputError = (
   formElement,
   inputElement,
@@ -85,41 +94,3 @@ const enableValidation = ({ formSelector, ...rest }) => {
 };
 
 enableValidation(validationConfig);
-
-// enableValidation({
-//   formSelector: ".popup__form",
-//   inputSelector: ".popup__input",
-//   errorTextSelector: ".popup__error",
-// });
-
-// function enableValidation(settings) {
-//   const forms = document.querySelectorAll(settings.formSelector);
-//   forms.forEach((form) => {
-//     setEventListeners(form, settings);
-//   });
-// }
-
-// function setEventListeners(form, settings) {
-//   const inputs = form.querySelectorAll(settings.inputSelector);
-//   inputs.forEach((input) => {
-//     input.addEventListener("input", (event) => {
-//       checkInputValidity(input);
-//     });
-//   });
-// }
-
-// function checkInputValidity(input) {
-//   if (input.validity.valid) {
-//     removeErrorStyles(input);
-//   } else {
-//     addErrorStyles(input);
-//   }
-// }
-
-// function removeErrorStyles(input) {
-//   input.classList.remove("popup__error_visable");
-// }
-
-// function addErrorStyles(input) {
-//   input.classList.add("popup__error_visable");
-// }

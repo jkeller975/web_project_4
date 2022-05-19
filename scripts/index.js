@@ -50,35 +50,26 @@ const titleInputField = addCardModal.querySelector(".popup__input_type_title");
 const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".elements__list");
 
-const validationConfig = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visable",
-};
-
 function showModal(modal) {
   modal.classList.add("popup_opened");
-  document.addEventListener("keyup", escUp);
+  document.addEventListener("keyup", isEscUp);
 }
 
 function hideModal(modal) {
   modal.classList.remove("popup_opened");
-  document.removeEventListener("keyup", escUp);
+  document.removeEventListener("keyup", isEscUp);
 }
 
-function escEvent(evt, action) {
+function checkEscEvent(evt, action) {
   const activePopup = document.querySelector(".popup_opened");
   if (evt.key === "Escape") {
     action(activePopup);
   }
 }
 
-function escUp(evt) {
+function isEscUp(evt) {
   evt.preventDefault();
-  escEvent(evt, hideModal);
+  checkEscEvent(evt, hideModal);
 }
 
 function editProfileFormSubmitHandler(e) {
@@ -115,7 +106,6 @@ function fillProfileForm() {
 
 addButton.addEventListener("click", () => {
   showModal(addCardModal);
-  // disableSubmitButton(cardSubmitButton, validationConfig.inactiveButtonClass);
 });
 closeButtons.forEach((closeButton) => {
   closeButton.addEventListener("click", (event) => {
@@ -165,17 +155,9 @@ function createCard(data) {
     toggleLikeButton(evt);
   });
 
-  function toggleLikeButton(evt) {
-    evt.target.classList.toggle("card__like_active");
-  }
-
   deleteButton.addEventListener("click", (evt) => {
     deleteCard(evt);
   });
-
-  function deleteCard(evt) {
-    evt.target.parentElement.remove();
-  }
 
   imageElement.addEventListener("click", () => {
     modalImageElement.src = data.link;
@@ -185,6 +167,14 @@ function createCard(data) {
   });
 
   return card;
+}
+
+function deleteCard(evt) {
+  evt.target.parentElement.remove();
+}
+
+function toggleLikeButton(evt) {
+  evt.target.classList.toggle("card__like_active");
 }
 
 function addCardToPage(card) {
