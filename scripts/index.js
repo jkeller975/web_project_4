@@ -35,7 +35,7 @@ const modalCaption = imageModal.querySelector(".popup__caption");
 const editButton = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add");
 const closeButtons = document.querySelectorAll(".popup__close");
-
+const cardSubmitButton = document.querySelector(".popup__button");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -50,12 +50,35 @@ const titleInputField = addCardModal.querySelector(".popup__input_type_title");
 const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".elements__list");
 
-function hideModal(modal) {
-  modal.classList.remove("popup_opened");
-}
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visable",
+};
 
 function showModal(modal) {
   modal.classList.add("popup_opened");
+  document.addEventListener("keyup", escUp);
+}
+
+function hideModal(modal) {
+  modal.classList.remove("popup_opened");
+  document.removeEventListener("keyup", escUp);
+}
+
+function escEvent(evt, action) {
+  const activePopup = document.querySelector(".popup_opened");
+  if (evt.key === "Escape") {
+    action(activePopup);
+  }
+}
+
+function escUp(evt) {
+  evt.preventDefault();
+  escEvent(evt, hideModal);
 }
 
 function editProfileFormSubmitHandler(e) {
@@ -92,12 +115,40 @@ function fillProfileForm() {
 
 addButton.addEventListener("click", () => {
   showModal(addCardModal);
+  // disableSubmitButton(cardSubmitButton, validationConfig.inactiveButtonClass);
 });
 closeButtons.forEach((closeButton) => {
   closeButton.addEventListener("click", (event) => {
     const popup = closeButton.closest(".popup");
     hideModal(popup);
   });
+});
+
+editProfileModal.addEventListener("mousedown", (evt) => {
+  if (
+    evt.target.classList.contains("popup") ||
+    evt.target.classList.contains("popup__close")
+  ) {
+    hideModal(editProfileModal);
+  }
+});
+
+addCardModal.addEventListener("mousedown", (evt) => {
+  if (
+    evt.target.classList.contains("popup") ||
+    evt.target.classList.contains("popup__close")
+  ) {
+    hideModal(addCardModal);
+  }
+});
+
+imageModal.addEventListener("mousedown", (evt) => {
+  if (
+    evt.target.classList.contains("popup") ||
+    evt.target.classList.contains("popup__close")
+  ) {
+    hideModal(imageModal);
+  }
 });
 
 function createCard(data) {
