@@ -1,3 +1,15 @@
+import FormValidator from "./FormValidator.js";
+import Card from "./Card.js";
+import {
+  showModal,
+  hideModal,
+  isEscUp,
+  checkEscEvent,
+  imageModal,
+  modalImageElement,
+  modalCaption,
+} from "./utils.js";
+
 const initialCards = [
   {
     name: "Lago di Braies",
@@ -27,15 +39,13 @@ const initialCards = [
 
 const editProfileModal = document.querySelector("#edit-profile-popup");
 const addCardModal = document.querySelector("#add-card-popup");
-const imageModal = document.querySelector("#image-popup");
+
 const editProfileForm = document.querySelector(".popup__form_type_profile");
 const createPlaceForm = document.querySelector(".popup__form_type_place");
-const modalImageElement = imageModal.querySelector(".popup__image");
-const modalCaption = imageModal.querySelector(".popup__caption");
+
 const editButton = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add");
 const closeButtons = document.querySelectorAll(".popup__close");
-const cardSubmitButton = document.querySelector(".popup__button");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -47,30 +57,7 @@ const descriptionInputField = editProfileForm.querySelector(
 const imageInputField = addCardModal.querySelector(".popup__input_type_link");
 const titleInputField = addCardModal.querySelector(".popup__input_type_title");
 
-const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".elements__list");
-
-function showModal(modal) {
-  modal.classList.add("popup_opened");
-  document.addEventListener("keyup", isEscUp);
-}
-
-function hideModal(modal) {
-  modal.classList.remove("popup_opened");
-  document.removeEventListener("keyup", isEscUp);
-}
-
-function checkEscEvent(evt, action) {
-  const activePopup = document.querySelector(".popup_opened");
-  if (evt.key === "Escape") {
-    action(activePopup);
-  }
-}
-
-function isEscUp(evt) {
-  evt.preventDefault();
-  checkEscEvent(evt, hideModal);
-}
 
 function editProfileFormSubmitHandler(e) {
   e.preventDefault();
@@ -141,50 +128,36 @@ imageModal.addEventListener("mousedown", (evt) => {
   }
 });
 
-function createCard(data) {
-  const card = cardTemplate.content.querySelector(".card").cloneNode(true);
-  const imageElement = card.querySelector(".card__item");
-  const titleElement = card.querySelector(".card__text");
-  const likeButton = card.querySelector(".card__like");
-  const deleteButton = card.querySelector(".card__delete");
-  imageElement.src = data.link;
-  imageElement.alt = data.name;
-  titleElement.textContent = data.name;
-
-  likeButton.addEventListener("click", (evt) => {
-    toggleLikeButton(evt);
-  });
-
-  deleteButton.addEventListener("click", (evt) => {
-    deleteCard(evt);
-  });
-
-  imageElement.addEventListener("click", () => {
-    modalImageElement.src = data.link;
-    modalImageElement.alt = data.name;
-    modalCaption.textContent = data.name;
-    showModal(imageModal);
-  });
-
-  return card;
-}
-
-function deleteCard(evt) {
-  evt.target.parentElement.remove();
-}
-
-function toggleLikeButton(evt) {
-  evt.target.classList.toggle("card__like_active");
-}
-
 function addCardToPage(card) {
   cardList.prepend(card);
 }
 
 function renderCard(data) {
-  addCardToPage(createCard(data));
+  const card = new Card(data, "#card-template").generateCard();
+  addCardToPage(card);
 }
 
-initialCards.forEach((cardData) => {
-  renderCard(cardData);
+initialCards.forEach((data) => {
+  renderCard(data);
 });
+
+const formValidationConfig = {
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visable",
+};
+
+const addFormValidator = new FormValidator(
+  formValidationConfig,
+  createPlaceForm
+);
+
+addFormValidator.enableValidation();
+
+const editFormValidator = new FormValidator(
+  formValidationConfig,
+  editProfileForm
+);
+editFormValidator.enableValidation();
