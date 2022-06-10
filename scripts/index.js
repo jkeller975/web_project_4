@@ -1,14 +1,10 @@
 import FormValidator from "./FormValidator.js";
 import Card from "./Card.js";
-import {
-  showModal,
-  hideModal,
-  isEscUp,
-  checkEscEvent,
-  imageModal,
-  modalImageElement,
-  modalCaption,
-} from "./utils.js";
+import { showModal, hideModal, isEscUp, checkEscEvent } from "./utils.js";
+
+export const imageModal = document.querySelector("#image-popup");
+export const modalImageElement = imageModal.querySelector(".popup__image");
+export const modalCaption = imageModal.querySelector(".popup__caption");
 
 const initialCards = [
   {
@@ -46,6 +42,7 @@ const createPlaceForm = document.querySelector(".popup__form_type_place");
 const editButton = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add");
 const closeButtons = document.querySelectorAll(".popup__close");
+const placeSubmitButton = document.querySelector(".popup__button");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -59,16 +56,16 @@ const titleInputField = addCardModal.querySelector(".popup__input_type_title");
 
 const cardList = document.querySelector(".elements__list");
 
-function editProfileFormSubmitHandler(e) {
+function handleEditProfileFormSubmit(e) {
   e.preventDefault();
   profileName.textContent = nameInputField.value;
   profileDescription.textContent = descriptionInputField.value;
   hideModal(editProfileModal);
 }
 
-editProfileForm.addEventListener("submit", editProfileFormSubmitHandler);
+editProfileForm.addEventListener("submit", handleEditProfileFormSubmit);
 
-function createPlaceFormSubmitHandler(evt) {
+function handleCreatePlaceFormSubmit(evt) {
   evt.preventDefault();
   const newCard = {
     link: imageInputField.value,
@@ -77,9 +74,11 @@ function createPlaceFormSubmitHandler(evt) {
   renderCard(newCard);
   hideModal(addCardModal);
   createPlaceForm.reset();
+  const button = addCardModal.querySelector(".popup__button");
+  addFormValidator.disableSubmitButton(button);
 }
 
-createPlaceForm.addEventListener("submit", createPlaceFormSubmitHandler);
+createPlaceForm.addEventListener("submit", handleCreatePlaceFormSubmit);
 
 editButton.addEventListener("click", () => {
   showModal(editProfileModal);
@@ -99,33 +98,6 @@ closeButtons.forEach((closeButton) => {
     const popup = closeButton.closest(".popup");
     hideModal(popup);
   });
-});
-
-editProfileModal.addEventListener("mousedown", (evt) => {
-  if (
-    evt.target.classList.contains("popup") ||
-    evt.target.classList.contains("popup__close")
-  ) {
-    hideModal(editProfileModal);
-  }
-});
-
-addCardModal.addEventListener("mousedown", (evt) => {
-  if (
-    evt.target.classList.contains("popup") ||
-    evt.target.classList.contains("popup__close")
-  ) {
-    hideModal(addCardModal);
-  }
-});
-
-imageModal.addEventListener("mousedown", (evt) => {
-  if (
-    evt.target.classList.contains("popup") ||
-    evt.target.classList.contains("popup__close")
-  ) {
-    hideModal(imageModal);
-  }
 });
 
 function addCardToPage(card) {

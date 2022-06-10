@@ -1,9 +1,6 @@
-import {
-  showModal,
-  imageModal,
-  modalImageElement,
-  modalCaption,
-} from "./utils.js";
+import { showModal } from "./utils.js";
+
+import { imageModal, modalImageElement, modalCaption } from "./index.js";
 
 class Card {
   constructor(data, cardSelector) {
@@ -21,23 +18,20 @@ class Card {
   }
 
   _setEventListeners() {
-    const deleteButton = this._element
-      .querySelector(".card__delete")
-      .addEventListener("click", (evt) => {
-        this._handleDelete(evt);
-      });
+    const deleteButton = this._element.querySelector(".card__delete");
+    deleteButton.addEventListener("click", (evt) => {
+      this._handleDelete(evt);
+    });
 
-    const likeButton = this._element
-      .querySelector(".card__like")
-      .addEventListener("click", (evt) => {
-        this._handleLike(evt);
-      });
+    const likeButton = this._element.querySelector(".card__like");
+    likeButton.addEventListener("click", (evt) => {
+      this._handleLike(evt);
+    });
 
-    const imageElement = this._element
-      .querySelector(".card__item")
-      .addEventListener("click", (evt) => {
-        this._handlePreview(evt);
-      });
+    const imageElement = this._element.querySelector(".card__item");
+    imageElement.addEventListener("click", (evt) => {
+      this._handlePreview(evt);
+    });
   }
 
   _handleLike(evt) {
@@ -45,7 +39,8 @@ class Card {
   }
 
   _handleDelete(evt) {
-    evt.target.parentElement.remove();
+    this._element.remove();
+    this._element = null;
   }
 
   _handlePreview(evt) {
@@ -59,9 +54,11 @@ class Card {
     this._element = this._getTemplate();
     this._setEventListeners();
 
-    this._element.querySelector(".card__item").src = this._link;
-    this._element.querySelector(".card__item").alt = this._name;
-    this._element.querySelector(".card__text").textContent = this._name;
+    const cardItem = this._element.querySelector(".card__item");
+    cardItem.src = this._link;
+    cardItem.alt = this._name;
+    const cardText = this._element.querySelector(".card__text");
+    cardText.textContent = this._name;
 
     return this._element;
   }
