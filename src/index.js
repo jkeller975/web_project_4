@@ -1,6 +1,12 @@
-import FormValidator from "./FormValidator.js";
-import Card from "./Card.js";
-import { showModal, hideModal, isEscUp, checkEscEvent } from "./utils.js";
+import "../src/pages/index.css";
+import FormValidator from "./scripts/FormValidator.js";
+import Card from "./scripts/Card.js";
+import {
+  showModal,
+  hideModal,
+  isEscUp,
+  checkEscEvent,
+} from "./scripts/utils.js";
 
 export const imageModal = document.querySelector("#image-popup");
 export const modalImageElement = imageModal.querySelector(".popup__image");
