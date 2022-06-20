@@ -1,141 +1,123 @@
 import "../src/pages/index.css";
+
+//Import all classes
 import FormValidator from "./scripts/FormValidator.js";
 import Card from "./scripts/Card.js";
+import Section from "./scripts/Section.js";
+import PopupWithImage from "./scripts/PopupWithImage.js";
+import UserInfo from "./scripts/UserInfo.js";
+
+import {
+  initialCards,
+  selectors,
+  formValidationConfig,
+  editProfileForm,
+  createPlaceForm,
+  editButton,
+  editProfileModal,
+  nameInputField,
+  descriptionInputField,
+  addButton,
+  addCardModal,
+  userNameSelector,
+  userDescriptionSelector,
+  inputName,
+  inputDescription,
+} from "./scripts/constants.js";
 import {
   showModal,
   hideModal,
   isEscUp,
   checkEscEvent,
 } from "./scripts/utils.js";
+import PopupWithForm from "./scripts/PopupWithForm.js";
+import { data } from "autoprefixer";
 
-export const imageModal = document.querySelector("#image-popup");
-export const modalImageElement = imageModal.querySelector(".popup__image");
-export const modalCaption = imageModal.querySelector(".popup__caption");
+//Export all classes
 
-const initialCards = [
-  {
-    name: "Lago di Braies",
-    link: "https://code.s3.yandex.net/web-code/lago.jpg",
-  },
-  {
-    name: "Vanoise National Park",
-    link: "https://code.s3.yandex.net/web-code/vanoise.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://code.s3.yandex.net/web-code/latemar.jpg",
-  },
-  {
-    name: "Bald Mountains",
-    link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
-  },
-  {
-    name: "Lake Louise",
-    link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
-  },
-  {
-    name: "Yosemite Valley",
-    link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
-  },
-];
+//Create instances of all classes
+const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
+const editProfileFormPopup = new PopupWithForm({
+  popupSelector: selectors.profileForm,
+  handleFormSubmit: () => {
+    currentUserInfo.setUserInfo({
+      userName: nameInputField.value,
+      userDescription: descriptionInputField.value,
+    });
 
-const editProfileModal = document.querySelector("#edit-profile-popup");
-const addCardModal = document.querySelector("#add-card-popup");
+    hideModal(editProfileModal);
+  },
+});
 
-const editProfileForm = document.querySelector(".popup__form_type_profile");
-const createPlaceForm = document.querySelector(".popup__form_type_place");
+const cardSection = new Section(
+  {
+    renderer: (data) => {
+      const cardElement = new Card(
+        {
+          data,
+          handleImageClick: (imgData) => {
+            cardPreviewPopup.open(imgData);
+          },
+        },
+        selectors.cardTemplate
+      );
+      const cards = cardElement.generateCard();
 
-const editButton = document.querySelector(".profile__edit-button");
-const addButton = document.querySelector(".profile__add");
-const closeButtons = document.querySelectorAll(".popup__close");
-const placeSubmitButton = document.querySelector(".popup__button");
-const profileName = document.querySelector(".profile__name");
-const profileDescription = document.querySelector(".profile__description");
-
-const nameInputField = editProfileForm.querySelector(".popup__input_type_name");
-const descriptionInputField = editProfileForm.querySelector(
-  ".popup__input_type_description"
+      cardSection.addItem(cards);
+    },
+  },
+  selectors.cardSection
 );
 
-const imageInputField = addCardModal.querySelector(".popup__input_type_link");
-const titleInputField = addCardModal.querySelector(".popup__input_type_title");
+const createPlaceFormPopup = new PopupWithForm({
+  popupSelector: selectors.placeForm,
+  handleFormSubmit: (data) => {
+    const newData = { name: data.title, link: data.url };
 
-const cardList = document.querySelector(".elements__list");
-
-function handleEditProfileFormSubmit(e) {
-  e.preventDefault();
-  profileName.textContent = nameInputField.value;
-  profileDescription.textContent = descriptionInputField.value;
-  hideModal(editProfileModal);
-}
-
-editProfileForm.addEventListener("submit", handleEditProfileFormSubmit);
-
-function handleCreatePlaceFormSubmit(evt) {
-  evt.preventDefault();
-  const newCard = {
-    link: imageInputField.value,
-    name: titleInputField.value,
-  };
-  renderCard(newCard);
-  hideModal(addCardModal);
-  createPlaceForm.reset();
-  const button = addCardModal.querySelector(".popup__button");
-  addFormValidator.disableSubmitButton(button);
-}
-
-createPlaceForm.addEventListener("submit", handleCreatePlaceFormSubmit);
-
-editButton.addEventListener("click", () => {
-  showModal(editProfileModal);
-  fillProfileForm();
+    const cardData = [];
+    cardData.push(newData);
+    cardSection.renderItems(cardData);
+    const button = addCardModal.querySelector(".popup__button");
+    addFormValidator.disableSubmitButton(button);
+    createPlaceFormPopup.close();
+  },
 });
-
-function fillProfileForm() {
-  nameInputField.value = profileName.textContent;
-  descriptionInputField.value = profileDescription.textContent;
-}
-
-addButton.addEventListener("click", () => {
-  showModal(addCardModal);
-});
-closeButtons.forEach((closeButton) => {
-  closeButton.addEventListener("click", (event) => {
-    const popup = closeButton.closest(".popup");
-    hideModal(popup);
-  });
-});
-
-function addCardToPage(card) {
-  cardList.prepend(card);
-}
-
-function renderCard(data) {
-  const card = new Card(data, "#card-template").generateCard();
-  addCardToPage(card);
-}
-
-initialCards.forEach((data) => {
-  renderCard(data);
-});
-
-const formValidationConfig = {
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visable",
-};
 
 const addFormValidator = new FormValidator(
   formValidationConfig,
   createPlaceForm
 );
-
-addFormValidator.enableValidation();
-
 const editFormValidator = new FormValidator(
   formValidationConfig,
   editProfileForm
 );
+
+//Initialize all classes
+cardSection.renderItems(initialCards);
+cardPreviewPopup.setEventListeners();
+
+addFormValidator.enableValidation();
 editFormValidator.enableValidation();
+
+//All the rest
+editButton.addEventListener("click", () => {
+  editProfileFormPopup.setEventListeners();
+  showModal(editProfileModal);
+  fillProfileForm();
+});
+
+const currentUserInfo = new UserInfo({
+  userNameSelector: userNameSelector,
+  userDescriptionSelector: userDescriptionSelector,
+});
+
+function fillProfileForm() {
+  const userInfo = currentUserInfo.getUserInfo();
+  inputName.value = userInfo.userName;
+  inputDescription.value = userInfo.userDescription;
+}
+
+addButton.addEventListener("click", () => {
+  createPlaceFormPopup.setEventListeners();
+  showModal(addCardModal);
+});

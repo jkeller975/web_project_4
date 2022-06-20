@@ -1,12 +1,9 @@
-import { showModal } from "./utils.js";
-
-import { imageModal, modalImageElement, modalCaption } from "../index.js";
-
-class Card {
-  constructor(data, cardSelector) {
+export default class Card {
+  constructor({ data, handleImageClick }, cardSelector) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handleImageClick = handleImageClick;
   }
 
   _getTemplate() {
@@ -30,7 +27,7 @@ class Card {
 
     const imageElement = this._element.querySelector(".card__item");
     imageElement.addEventListener("click", (evt) => {
-      this._handlePreview(evt);
+      this._handleImageClick({ link: this._link, name: this._name });
     });
   }
 
@@ -41,13 +38,6 @@ class Card {
   _handleDelete(evt) {
     this._element.remove();
     this._element = null;
-  }
-
-  _handlePreview(evt) {
-    modalImageElement.src = evt.target.src;
-    modalImageElement.alt = evt.target.alt;
-    modalCaption.textContent = evt.target.alt;
-    showModal(imageModal);
   }
 
   generateCard() {
@@ -63,5 +53,3 @@ class Card {
     return this._element;
   }
 }
-
-export default Card;
