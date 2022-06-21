@@ -60,8 +60,8 @@ export const descriptionInputField = editProfileForm.querySelector(
 export const addButton = document.querySelector(".profile__add");
 export const addCardModal = document.querySelector("#add-card-popup");
 
-export const userNameSelector = document.querySelector(".profile__name");
-export const userDescriptionSelector = document.querySelector(
+export const userNameElement = document.querySelector(".profile__name");
+export const userDescriptionElement = document.querySelector(
   ".profile__description"
 );
 export const inputName = document.querySelector(".popup__input_type_name");

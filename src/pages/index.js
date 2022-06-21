@@ -1,11 +1,12 @@
-import "../src/pages/index.css";
+import "./index.css";
 
 //Import all classes
-import FormValidator from "./scripts/FormValidator.js";
-import Card from "./scripts/Card.js";
-import Section from "./scripts/Section.js";
-import PopupWithImage from "./scripts/PopupWithImage.js";
-import UserInfo from "./scripts/UserInfo.js";
+import FormValidator from "../components/FormValidator.js";
+import Card from "../components/Card.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 
 import {
   initialCards,
@@ -19,18 +20,18 @@ import {
   descriptionInputField,
   addButton,
   addCardModal,
-  userNameSelector,
-  userDescriptionSelector,
+  userNameElement,
+  userDescriptionElement,
   inputName,
   inputDescription,
-} from "./scripts/constants.js";
+} from "../utils/constants.js";
 import {
   showModal,
   hideModal,
   isEscUp,
   checkEscEvent,
-} from "./scripts/utils.js";
-import PopupWithForm from "./scripts/PopupWithForm.js";
+} from "../utils/utils.js";
+
 import { data } from "autoprefixer";
 
 //Export all classes
@@ -76,12 +77,32 @@ const createPlaceFormPopup = new PopupWithForm({
 
     const cardData = [];
     cardData.push(newData);
-    cardSection.renderItems(cardData);
+    newCardSection.renderItems(cardData);
     const button = addCardModal.querySelector(".popup__button");
     addFormValidator.disableSubmitButton(button);
     createPlaceFormPopup.close();
   },
 });
+
+const newCardSection = new Section(
+  {
+    renderer: (data) => {
+      const newCardElement = new Card(
+        {
+          data,
+          handleImageClick: (imgData) => {
+            cardPreviewPopup.open(imgData);
+          },
+        },
+        selectors.cardTemplate
+      );
+      const cards = newCardElement.generateCard();
+
+      newCardSection.addItem(cards);
+    },
+  },
+  selectors.cardSection
+);
 
 const addFormValidator = new FormValidator(
   formValidationConfig,
@@ -107,8 +128,8 @@ editButton.addEventListener("click", () => {
 });
 
 const currentUserInfo = new UserInfo({
-  userNameSelector: userNameSelector,
-  userDescriptionSelector: userDescriptionSelector,
+  userNameElement: userNameElement,
+  userDescriptionElement: userDescriptionElement,
 });
 
 function fillProfileForm() {
