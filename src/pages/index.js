@@ -25,12 +25,7 @@ import {
   inputName,
   inputDescription,
 } from "../utils/constants.js";
-import {
-  showModal,
-  hideModal,
-  isEscUp,
-  checkEscEvent,
-} from "../utils/utils.js";
+import { showModal, hideModal } from "../utils/utils.js";
 
 import { data } from "autoprefixer";
 
@@ -50,22 +45,24 @@ const editProfileFormPopup = new PopupWithForm({
   },
 });
 
+function renderCard(data) {
+  const card = new Card(
+    {
+      data,
+      handleImageClick: (imgData) => {
+        cardPreviewPopup.open(imgData);
+      },
+    },
+    selectors.cardTemplate
+  );
+  const cardLocation = document.querySelector(".elements__list");
+  cardLocation.prepend(card.generateCard());
+}
+
 const cardSection = new Section(
   {
-    renderer: (data) => {
-      const cardElement = new Card(
-        {
-          data,
-          handleImageClick: (imgData) => {
-            cardPreviewPopup.open(imgData);
-          },
-        },
-        selectors.cardTemplate
-      );
-      const cards = cardElement.generateCard();
-
-      cardSection.addItem(cards);
-    },
+    items: initialCards,
+    renderer: renderCard,
   },
   selectors.cardSection
 );
@@ -74,35 +71,12 @@ const createPlaceFormPopup = new PopupWithForm({
   popupSelector: selectors.placeForm,
   handleFormSubmit: (data) => {
     const newData = { name: data.title, link: data.url };
-
-    const cardData = [];
-    cardData.push(newData);
-    newCardSection.renderItems(cardData);
+    renderCard(newData);
     const button = addCardModal.querySelector(".popup__button");
     addFormValidator.disableSubmitButton(button);
     createPlaceFormPopup.close();
   },
 });
-
-const newCardSection = new Section(
-  {
-    renderer: (data) => {
-      const newCardElement = new Card(
-        {
-          data,
-          handleImageClick: (imgData) => {
-            cardPreviewPopup.open(imgData);
-          },
-        },
-        selectors.cardTemplate
-      );
-      const cards = newCardElement.generateCard();
-
-      newCardSection.addItem(cards);
-    },
-  },
-  selectors.cardSection
-);
 
 const addFormValidator = new FormValidator(
   formValidationConfig,
@@ -114,7 +88,7 @@ const editFormValidator = new FormValidator(
 );
 
 //Initialize all classes
-cardSection.renderItems(initialCards);
+cardSection.renderItems();
 cardPreviewPopup.setEventListeners();
 
 addFormValidator.enableValidation();
