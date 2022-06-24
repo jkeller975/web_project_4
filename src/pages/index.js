@@ -55,8 +55,7 @@ function renderCard(data) {
     },
     selectors.cardTemplate
   );
-  const cardLocation = document.querySelector(".elements__list");
-  cardLocation.prepend(card.generateCard());
+  cardSection.addItem(card.generateCard());
 }
 
 const cardSection = new Section(
