@@ -24,6 +24,7 @@ import {
   userDescriptionElement,
   inputName,
   inputDescription,
+  confirmDeleteModal,
 } from "../utils/constants.js";
 import { showModal, hideModal } from "../utils/utils.js";
 
@@ -46,8 +47,9 @@ api.getUserInfo().then((userData) => {
     userId: userData._id,
   });
 });
-
-// api.removeCard("62c46b4d749ed107931a49b8").then((res) => console.log(res));
+console.log(currentUserInfo);
+console.log(currentUserInfo.userId);
+console.log(currentUserInfo._userId);
 
 //Export all classes
 
@@ -68,26 +70,6 @@ const editProfileFormPopup = new PopupWithForm({
     hideModal(editProfileModal);
   },
 });
-const popupWithDeleteConfirm = new PopupWithDeleteConfirm({
-  popupSelector: ".popup__delete",
-  handleDeleteClick: (card) => {
-    console.log("TEST");
-    card.handleDelete();
-  },
-});
-
-// function renderCard(data) {
-//   const card = new Card(
-//     {
-//       data,
-//       handleImageClick: (imgData) => {
-//         cardPreviewPopup.open(imgData);
-//       },
-//     },
-//     selectors.cardTemplate
-//   );
-//   cardSection.addItem(card.generateCard());
-// }
 
 api.getCardList().then((cards) => {
   const cardSection = new Section(
@@ -104,20 +86,24 @@ api.getCardList().then((cards) => {
         handleImageClick: (imgData) => {
           cardPreviewPopup.open(imgData);
         },
-        handleDeleteCardClick: (evt) => {
-          const id = card.getId();
-          console.log(api.removeCard(card.getId()));
-          console.log(card.getId());
+        handleDeleteCardClick: (data) => {
+          showModal(confirmDeleteModal);
+          const popupWithDeleteConfirm = new PopupWithDeleteConfirm({
+            popupSelector: selectors.confirmDeleteForm,
+            handleClick: (evt) => {
+              api.removeCard(card.getId()).then((res) => {
+                card.handleDelete();
+              });
+              hideModal(confirmDeleteModal);
+            },
+          });
           popupWithDeleteConfirm.setEventListeners();
-          // api.removeCard(id).then((res) => {
-          //   card.handleDelete();
-          // });
         },
-        handleLikeClick: (LikeButtonIsActive, cardId, likeCounter) => {
-          console.log(cardId);
-          api.updateLike(LikeButtonIsActive, cardId).then((result) => {
-            // likeCounter.textContent = result.likes.length;
-            console.log(result);
+        handleLikeClick: (data) => {
+          api.toggleLike(card.getId(), card.isLiked()).then((res) => {
+            console.log(res);
+            console.log(card.isLiked());
+            card.setLikes(res);
           });
         },
       },
@@ -132,8 +118,7 @@ api.getCardList().then((cards) => {
       const newData = { name: data.title, link: data.url };
       api.addCard(newData).then((newData) => {
         renderCard(newData);
-        console.log(newData);
-        console.log(newData._id);
+
         const button = addCardModal.querySelector(".popup__button");
         addFormValidator.disableSubmitButton(button);
         createPlaceFormPopup.close();
@@ -146,17 +131,6 @@ api.getCardList().then((cards) => {
   });
 });
 
-// const createPlaceFormPopup = new PopupWithForm({
-//   popupSelector: selectors.placeForm,
-//   handleFormSubmit: (data) => {
-//     const newData = { name: data.title, link: data.url };
-//     renderCard(newData);
-//     const button = addCardModal.querySelector(".popup__button");
-//     addFormValidator.disableSubmitButton(button);
-//     createPlaceFormPopup.close();
-//   },
-// });
-
 const addFormValidator = new FormValidator(
   formValidationConfig,
   createPlaceForm
@@ -167,7 +141,6 @@ const editFormValidator = new FormValidator(
 );
 
 //Initialize all classes
-// cardSection.renderItems();
 cardPreviewPopup.setEventListeners();
 
 addFormValidator.enableValidation();
@@ -185,8 +158,3 @@ function fillProfileForm() {
   inputName.value = userInfo.userName;
   inputDescription.value = userInfo.userDescription;
 }
-
-// addButton.addEventListener("click", () => {
-//   createPlaceFormPopup.setEventListeners();
-//   showModal(addCardModal);
-// });

@@ -74,10 +74,10 @@ export default class Api {
       });
   }
 
-  //PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
-  updateLike(LikeButtonActive, cardId) {
+  //Toggle Like https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
+  toggleLike(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
+      method: isLiked ? "DELETE" : "PUT",
       headers: {
         authorization: this._authToken,
         "Content-Type": "application/json",
@@ -90,6 +90,23 @@ export default class Api {
         console.log(err);
       });
   }
+
+  //PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
+  // updateLike(LikeButtonActive, cardId) {
+  //   return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+  //     method: "PUT",
+  //     headers: {
+  //       authorization: this._authToken,
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) =>
+  //       res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
+  //     )
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   //DELETE https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
   //changeLikeCardStatus(cardId, like) {}

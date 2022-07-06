@@ -1,27 +1,39 @@
 export default class Card {
   constructor(
     { data, handleImageClick, handleDeleteCardClick, handleLikeClick },
-    cardSelector,
-    userId
+    cardSelector
   ) {
     this._name = data.name;
     this._link = data.link;
     this._cardOwnerId = data.owner._id;
+    this._likes = data.likes;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
-    this._id = data.id;
+    this._id = data._id;
     this._handleDeleteCardClick = handleDeleteCardClick;
     this._handleLikeClick = handleLikeClick;
-    this._userId = userId;
+    this._userId = "b9ea9c1b360810ad2d281850";
+    this._ownerId = data.owner._id;
   }
 
   getId() {
     return this._id;
   }
 
+  isLiked() {
+    return this._element
+      .querySelector(".card__like")
+      .classList.contains("card__like_active");
+  }
+
+  setLikes(res) {
+    this._heartButton.classList.toggle("card__like_active");
+    this._likeSelector.textContent = res.likes.length;
+  }
+
   _updateView() {
     const deleteButton = this._element.querySelector(".card__delete");
-    if (this._userId === this._cardOwnerId) {
+    if (this._userId === this._ownerId) {
       deleteButton.classList.add("card__delete-button_active");
     }
   }
@@ -45,13 +57,13 @@ export default class Card {
       const LikeButtonActive = this._element
         .querySelector(".card__like")
         .classList.contains("card__like_active");
-      console.log(LikeButtonActive);
+
       this._handleLikeClick(
         LikeButtonActive,
         this._id,
         this._element.querySelector(".card__like-counter")
       );
-      this._handleLike(evt);
+      // this._handleLike(evt);
     });
 
     const imageElement = this._element.querySelector(".card__item");
@@ -66,7 +78,6 @@ export default class Card {
 
   handleDelete() {
     this._element.remove();
-    this._element = null;
   }
 
   generateCard() {
@@ -78,6 +89,9 @@ export default class Card {
     cardItem.alt = this._name;
     const cardText = this._element.querySelector(".card__text");
     cardText.textContent = this._name;
+    this._heartButton = this._element.querySelector(".card__like");
+    this._likeSelector = this._element.querySelector(".card__like-counter");
+    this._likeSelector.textContent = this._likes.length;
 
     return this._element;
   }

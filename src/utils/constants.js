@@ -4,6 +4,7 @@ export const selectors = {
   previewPopup: "#image-popup",
   profileForm: "#edit-profile-popup",
   placeForm: "#add-card-popup",
+  confirmDeleteForm: "#delete-confirm-popup",
 };
 
 export const formValidationConfig = {
@@ -40,4 +41,8 @@ export const userDescriptionElement = document.querySelector(
 export const inputName = document.querySelector(".popup__input_type_name");
 export const inputDescription = document.querySelector(
   ".popup__input_type_description"
+);
+
+export const confirmDeleteModal = document.querySelector(
+  "#delete-confirm-popup"
 );
