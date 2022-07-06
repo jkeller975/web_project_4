@@ -181,7 +181,14 @@
   border-bottom: 1px solid #ff0000;
 }
 
-.popup__delete {
-  width: 430px;
+.popup__delete-container {
   height: 180px;
+}
+
+.popup__title-confirm {
+  margin-bottom: 38px;
+}
+
+.popup__button-confirm {
+  margin: 0;
 }

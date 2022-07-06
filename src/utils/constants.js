@@ -5,6 +5,7 @@ export const selectors = {
   profileForm: "#edit-profile-popup",
   placeForm: "#add-card-popup",
   confirmDeleteForm: "#delete-confirm-popup",
+  avatarPopup: "#avatar-popup",
 };
 
 export const formValidationConfig = {
@@ -20,6 +21,9 @@ export const editProfileForm = document.querySelector(
 );
 export const createPlaceForm = document.querySelector(
   ".popup__form_type_place"
+);
+export const editAvatarForm = document.querySelector(
+  ".popup__form_type_avatar"
 );
 export const editButton = document.querySelector(".profile__edit-button");
 export const editProfileModal = document.querySelector("#edit-profile-popup");
@@ -46,3 +50,6 @@ export const inputDescription = document.querySelector(
 export const confirmDeleteModal = document.querySelector(
   "#delete-confirm-popup"
 );
+
+export const avatarPopup = document.querySelector("#avatar-popup");
+export const avatar = document.querySelector(".profile__image");

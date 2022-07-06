@@ -1,7 +1,8 @@
 export default class Card {
   constructor(
     { data, handleImageClick, handleDeleteCardClick, handleLikeClick },
-    cardSelector
+    cardSelector,
+    user
   ) {
     this._name = data.name;
     this._link = data.link;
@@ -12,7 +13,7 @@ export default class Card {
     this._id = data._id;
     this._handleDeleteCardClick = handleDeleteCardClick;
     this._handleLikeClick = handleLikeClick;
-    this._userId = "b9ea9c1b360810ad2d281850";
+    this._userId = user._id;
     this._ownerId = data.owner._id;
   }
 

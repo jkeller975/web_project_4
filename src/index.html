@@ -115,7 +115,7 @@
     </div>
 
     <div class="popup" id="delete-confirm-popup">
-      <div class="popup__container">
+      <div class="popup__container popup__delete-container">
         <button class="popup__close" type="button"></button>
         <form class="popup__form">
           <div class="popup__delete">
@@ -127,6 +127,34 @@
               Yes
             </button>
           </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup" id="avatar-popup">
+      <div class="popup__container popup__avatar">
+        <button class="popup__close" type="button"></button>
+        <h3 class="popup__title">Change profile picture</h3>
+        <form
+          class="popup__form popup__form_type_avatar"
+          name="add-avatar"
+          novalidate
+        >
+          <input
+            type="url"
+            id="avatar-link"
+            name="url"
+            class="popup__input popup__input_type_link"
+            placeholder="Image URL"
+            required
+          />
+          <span class="popup__error" id="avatar-link-error">Placeholder</span>
+          <button
+            type="submit"
+            class="button popup__button popup__button_disabled"
+          >
+            Save
+          </button>
         </form>
       </div>
     </div>

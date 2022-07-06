@@ -14,6 +14,7 @@ import {
   formValidationConfig,
   editProfileForm,
   createPlaceForm,
+  editAvatarForm,
   editButton,
   editProfileModal,
   nameInputField,
@@ -25,6 +26,8 @@ import {
   inputName,
   inputDescription,
   confirmDeleteModal,
+  avatarPopup,
+  avatar,
 } from "../utils/constants.js";
 import { showModal, hideModal } from "../utils/utils.js";
 
@@ -47,11 +50,6 @@ api.getUserInfo().then((userData) => {
     userId: userData._id,
   });
 });
-console.log(currentUserInfo);
-console.log(currentUserInfo.userId);
-console.log(currentUserInfo._userId);
-
-//Export all classes
 
 //Create instances of all classes
 const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
@@ -62,7 +60,7 @@ const editProfileFormPopup = new PopupWithForm({
       userName: nameInputField.value,
       userDescription: descriptionInputField.value,
     });
-    const name = nameInputField.value;
+
     api.setUserInfo({
       name: nameInputField.value,
       about: descriptionInputField.value,
@@ -70,64 +68,64 @@ const editProfileFormPopup = new PopupWithForm({
     hideModal(editProfileModal);
   },
 });
-
-api.getCardList().then((cards) => {
-  const cardSection = new Section(
-    {
-      items: cards,
-      renderer: renderCard,
-    },
-    selectors.cardSection
-  );
-  function renderCard(data) {
-    const card = new Card(
+api.getUserInfo().then((user) => {
+  api.getCardList().then((cards) => {
+    const cardSection = new Section(
       {
-        data,
-        handleImageClick: (imgData) => {
-          cardPreviewPopup.open(imgData);
-        },
-        handleDeleteCardClick: (data) => {
-          showModal(confirmDeleteModal);
-          const popupWithDeleteConfirm = new PopupWithDeleteConfirm({
-            popupSelector: selectors.confirmDeleteForm,
-            handleClick: (evt) => {
-              api.removeCard(card.getId()).then((res) => {
-                card.handleDelete();
-              });
-              hideModal(confirmDeleteModal);
-            },
-          });
-          popupWithDeleteConfirm.setEventListeners();
-        },
-        handleLikeClick: (data) => {
-          api.toggleLike(card.getId(), card.isLiked()).then((res) => {
-            console.log(res);
-            console.log(card.isLiked());
-            card.setLikes(res);
-          });
-        },
+        items: cards,
+        renderer: renderCard,
       },
-      selectors.cardTemplate
+      selectors.cardSection
     );
-    cardSection.addItem(card.generateCard());
-  }
-  cardSection.renderItems();
-  const createPlaceFormPopup = new PopupWithForm({
-    popupSelector: selectors.placeForm,
-    handleFormSubmit: (data) => {
-      const newData = { name: data.title, link: data.url };
-      api.addCard(newData).then((newData) => {
-        renderCard(newData);
+    function renderCard(data) {
+      const card = new Card(
+        {
+          data,
+          handleImageClick: (imgData) => {
+            cardPreviewPopup.open(imgData);
+          },
+          handleDeleteCardClick: (data) => {
+            showModal(confirmDeleteModal);
+            const popupWithDeleteConfirm = new PopupWithDeleteConfirm({
+              popupSelector: selectors.confirmDeleteForm,
+              handleClick: (evt) => {
+                api.removeCard(card.getId()).then((res) => {
+                  card.handleDelete();
+                });
+                hideModal(confirmDeleteModal);
+              },
+            });
+            popupWithDeleteConfirm.setEventListeners();
+          },
+          handleLikeClick: (data) => {
+            api.toggleLike(card.getId(), card.isLiked()).then((res) => {
+              card.setLikes(res);
+            });
+          },
+        },
+        selectors.cardTemplate,
+        user
+      );
+      cardSection.addItem(card.generateCard());
+    }
+    cardSection.renderItems();
+    const createPlaceFormPopup = new PopupWithForm({
+      popupSelector: selectors.placeForm,
+      handleFormSubmit: (data) => {
+        const newData = { name: data.title, link: data.url };
+        api.addCard(newData).then((newData) => {
+          renderCard(newData);
 
-        const button = addCardModal.querySelector(".popup__button");
-        addFormValidator.disableSubmitButton(button);
-        createPlaceFormPopup.close();
-      });
-    },
-  });
-  addButton.addEventListener("click", () => {
-    createPlaceFormPopup.setEventListeners();
-    showModal(addCardModal);
+          const button = addCardModal.querySelector(".popup__button");
+          addFormValidator.disableSubmitButton(button);
+          createPlaceFormPopup.close();
+        });
+      },
+    });
+    addButton.addEventListener("click", () => {
+      createPlaceFormPopup.setEventListeners();
+      showModal(addCardModal);
+    });
   });
 });
 
@@ -139,12 +137,17 @@ const editFormValidator = new FormValidator(
   formValidationConfig,
   editProfileForm
 );
+const editAvatarFormValidator = new FormValidator(
+  formValidationConfig,
+  editAvatarForm
+);
 
 //Initialize all classes
 cardPreviewPopup.setEventListeners();
 
 addFormValidator.enableValidation();
 editFormValidator.enableValidation();
+editAvatarFormValidator.enableValidation();
 
 //All the rest
 editButton.addEventListener("click", () => {
@@ -158,3 +161,22 @@ function fillProfileForm() {
   inputName.value = userInfo.userName;
   inputDescription.value = userInfo.userDescription;
 }
+
+const editAvatarFormPopup = new PopupWithForm({
+  popupSelector: selectors.avatarPopup,
+  handleFormSubmit: (data) => {
+    // api.setUserAvatar(newData).then((newData) => {
+    //   renderCard(newData);
+
+    const button = addCardModal.querySelector(".popup__button");
+    editAvatarFormValidator.disableSubmitButton(button);
+    console.log("TEST");
+    editAvatarFormPopup.close();
+    // });
+  },
+});
+
+avatar.addEventListener("click", () => {
+  editAvatarFormPopup.setEventListeners();
+  showModal(avatarPopup);
+});
