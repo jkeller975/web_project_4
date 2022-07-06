@@ -1,3 +1,5 @@
+import { avatar } from "../utils/constants.js";
+
 export default class UserInfo {
   constructor({ userNameElement, userDescriptionElement, userAvatar, userId }) {
     this._userNameElement = userNameElement;
@@ -15,9 +17,14 @@ export default class UserInfo {
     };
   }
 
-  setUserInfo({ userName, userDescription, userId }) {
+  setUserInfo({ userName, userDescription, userId, userAvatar }) {
     this._userNameElement.textContent = userName;
     this._userDescriptionElement.textContent = userDescription;
     this._userId = userId;
+    avatar.src = userAvatar;
+  }
+
+  setUserAvatar(imageLink) {
+    this._userAvatar = imageLink;
   }
 }

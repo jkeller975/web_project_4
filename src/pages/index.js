@@ -48,6 +48,7 @@ api.getUserInfo().then((userData) => {
     userName: userData.name,
     userDescription: userData.about,
     userId: userData._id,
+    userAvatar: userData.avatar,
   });
 });
 
@@ -164,15 +165,16 @@ function fillProfileForm() {
 
 const editAvatarFormPopup = new PopupWithForm({
   popupSelector: selectors.avatarPopup,
-  handleFormSubmit: (data) => {
-    // api.setUserAvatar(newData).then((newData) => {
-    //   renderCard(newData);
+  handleFormSubmit: (avatar) => {
+    api.setUserAvatar({ avatar: avatar.url }).then((result) => {
+      currentUserInfo.setUserAvatar(avatar.url);
+      currentUserInfo.setUserInfo({ userAvatar: avatar.url });
 
-    const button = addCardModal.querySelector(".popup__button");
-    editAvatarFormValidator.disableSubmitButton(button);
-    console.log("TEST");
-    editAvatarFormPopup.close();
-    // });
+      const button = addCardModal.querySelector(".popup__button");
+      editAvatarFormValidator.disableSubmitButton(button);
+
+      editAvatarFormPopup.close();
+    });
   },
 });
 
