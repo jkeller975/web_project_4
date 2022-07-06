@@ -93,6 +93,10 @@ export default class Card {
     this._likeSelector = this._element.querySelector(".card__like-counter");
     this._likeSelector.textContent = this._likes.length;
 
+    if (this._likes.some((item) => item._id === this._userId)) {
+      this._heartButton.classList.add("card__like_active");
+    }
+
     return this._element;
   }
 }
