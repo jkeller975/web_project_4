@@ -27,7 +27,7 @@ import {
   inputDescription,
   confirmDeleteModal,
   avatarPopup,
-  avatar,
+  avatarEdit,
 } from "../utils/constants.js";
 import { showModal, hideModal } from "../utils/utils.js";
 
@@ -52,21 +52,24 @@ api.getUserInfo().then((userData) => {
   });
 });
 
-//Create instances of all classes
 const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
 const editProfileFormPopup = new PopupWithForm({
   popupSelector: selectors.profileForm,
   handleFormSubmit: () => {
-    currentUserInfo.setUserInfo({
-      userName: nameInputField.value,
-      userDescription: descriptionInputField.value,
-    });
+    api
+      .setUserInfo({
+        name: nameInputField.value,
+        about: descriptionInputField.value,
+      })
+      .then(() => {
+        currentUserInfo.setUserInfo({
+          ...currentUserInfo.getUserInfo(),
+          userName: nameInputField.value,
+          userDescription: descriptionInputField.value,
+        });
 
-    api.setUserInfo({
-      name: nameInputField.value,
-      about: descriptionInputField.value,
-    });
-    hideModal(editProfileModal);
+        hideModal(editProfileModal);
+      });
   },
 });
 api.getUserInfo().then((user) => {
@@ -143,14 +146,12 @@ const editAvatarFormValidator = new FormValidator(
   editAvatarForm
 );
 
-//Initialize all classes
 cardPreviewPopup.setEventListeners();
 
 addFormValidator.enableValidation();
 editFormValidator.enableValidation();
 editAvatarFormValidator.enableValidation();
 
-//All the rest
 editButton.addEventListener("click", () => {
   editProfileFormPopup.setEventListeners();
   showModal(editProfileModal);
@@ -168,7 +169,10 @@ const editAvatarFormPopup = new PopupWithForm({
   handleFormSubmit: (avatar) => {
     api.setUserAvatar({ avatar: avatar.url }).then((result) => {
       currentUserInfo.setUserAvatar(avatar.url);
-      currentUserInfo.setUserInfo({ userAvatar: avatar.url });
+      currentUserInfo.setUserInfo({
+        ...currentUserInfo.getUserInfo(),
+        userAvatar: avatar.url,
+      });
 
       const button = addCardModal.querySelector(".popup__button");
       editAvatarFormValidator.disableSubmitButton(button);
@@ -178,7 +182,7 @@ const editAvatarFormPopup = new PopupWithForm({
   },
 });
 
-avatar.addEventListener("click", () => {
+avatarEdit.addEventListener("click", () => {
   editAvatarFormPopup.setEventListeners();
   showModal(avatarPopup);
 });

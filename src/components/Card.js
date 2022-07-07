@@ -64,7 +64,6 @@ export default class Card {
         this._id,
         this._element.querySelector(".card__like-counter")
       );
-      // this._handleLike(evt);
     });
 
     const imageElement = this._element.querySelector(".card__item");

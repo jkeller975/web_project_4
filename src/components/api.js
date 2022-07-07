@@ -4,7 +4,6 @@ export default class Api {
     this._authToken = authToken;
   }
 
-  //GET https://around.nomoreparties.co/v1/groupId/cards
   getCardList() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
@@ -19,7 +18,6 @@ export default class Api {
       });
   }
 
-  //GET https://around.nomoreparties.co/v1/groupId/users/me
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
@@ -34,9 +32,6 @@ export default class Api {
       });
   }
 
-  //getAppInfo() {}
-
-  //POST https://around.nomoreparties.co/v1/groupId/cards
   addCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
@@ -57,7 +52,6 @@ export default class Api {
       });
   }
 
-  //DELETE https://around.nomoreparties.co/v1/groupId/cards/cardId
   removeCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
@@ -74,7 +68,6 @@ export default class Api {
       });
   }
 
-  //Toggle Like https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
   toggleLike(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: isLiked ? "DELETE" : "PUT",
@@ -91,27 +84,6 @@ export default class Api {
       });
   }
 
-  //PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
-  // updateLike(LikeButtonActive, cardId) {
-  //   return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-  //     method: "PUT",
-  //     headers: {
-  //       authorization: this._authToken,
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) =>
-  //       res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-  //     )
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  //DELETE https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
-  //changeLikeCardStatus(cardId, like) {}
-
-  //PATCH https://around.nomoreparties.co/v1/groupId/users/me
   setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
@@ -132,7 +104,6 @@ export default class Api {
       });
   }
 
-  //PATCH https://around.nomoreparties.co/v1/groupId/users/me/avatar
   setUserAvatar({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",

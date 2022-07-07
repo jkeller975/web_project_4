@@ -53,3 +53,4 @@ export const confirmDeleteModal = document.querySelector(
 
 export const avatarPopup = document.querySelector("#avatar-popup");
 export let avatar = document.querySelector(".profile__image");
+export let avatarEdit = document.querySelector(".profile__image-edit");
