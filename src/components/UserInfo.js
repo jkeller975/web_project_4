@@ -5,7 +5,11 @@ export default class UserInfo {
     this._userNameElement = userNameElement;
     this._userDescriptionElement = userDescriptionElement;
     this._userAvatar = userAvatar;
-    this.userId = userId;
+    this._userId = userId;
+  }
+
+  getId() {
+    return this._userId;
   }
 
   getUserInfo() {

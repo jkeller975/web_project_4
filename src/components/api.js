@@ -2,10 +2,15 @@ export default class Api {
   constructor({ baseUrl, authToken }) {
     this._baseUrl = baseUrl;
     this._authToken = authToken;
+    this;
   }
 
   initial() {
     return Promise.all([this.getUserInfo(), this.getCardList()]);
+  }
+
+  _processResponse(res) {
+    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
   }
 
   getCardList() {
@@ -13,13 +18,7 @@ export default class Api {
       headers: {
         authorization: this._authToken,
       },
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 
   getUserInfo() {
@@ -27,13 +26,7 @@ export default class Api {
       headers: {
         authorization: this._authToken,
       },
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 
   addCard({ name, link }) {
@@ -47,13 +40,7 @@ export default class Api {
         name,
         link,
       }),
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 
   removeCard(cardId) {
@@ -63,13 +50,7 @@ export default class Api {
         authorization: this._authToken,
         "Content-Type": "application/json",
       },
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 
   toggleLike(cardId, isLiked) {
@@ -79,13 +60,7 @@ export default class Api {
         authorization: this._authToken,
         "Content-Type": "application/json",
       },
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 
   setUserInfo({ name, about }) {
@@ -99,13 +74,7 @@ export default class Api {
         name,
         about,
       }),
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 
   setUserAvatar({ avatar }) {
@@ -118,12 +87,6 @@ export default class Api {
       body: JSON.stringify({
         avatar,
       }),
-    })
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => this._processResponse(res));
   }
 }

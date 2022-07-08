@@ -7,22 +7,15 @@ export default class PopupWithDeleteConfirm extends Popup {
     this._button = document.querySelector(".popup__button-confirm");
   }
 
-  open() {
+  open(card) {
     super.open();
     this._card = card;
   }
 
   setEventListeners() {
-    this._popupElement.addEventListener("click", (evt) => {
-      evt.preventDefault();
-      if (
-        evt.target.classList.contains("popup") ||
-        evt.target.classList.contains("popup__close")
-      ) {
-        this.close();
-      }
-    });
+    super.setEventListeners();
     this._button.addEventListener("click", (e) => {
+      e.preventDefault();
       this._handleClick(this._card);
     });
   }

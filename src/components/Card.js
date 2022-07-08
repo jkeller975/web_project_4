@@ -22,17 +22,23 @@ export default class Card {
   }
 
   isLiked() {
-    return this._element
-      .querySelector(".card__like")
-      .classList.contains("card__like_active");
+    console.log(
+      this._element
+        .querySelector(".card__like")
+        .classList.contains("card__like_active")
+    );
+    console.log(this._likes.some((like) => like.id === this._userId));
+
+    return this._likes.some((like) => like._id === this._userId);
   }
 
   setLikes(res) {
     this._heartButton.classList.toggle("card__like_active");
-    this._likeSelector.textContent = res.likes.length;
+    this._likesCounter.textContent = res.likes.length;
+    console.log(this._likes);
   }
 
-  _updateView() {
+  _toggleDeleteButton() {
     const deleteButton = this._element.querySelector(".card__delete");
     if (this._userId === this._ownerId) {
       deleteButton.classList.add("card__delete-button_active");
@@ -55,15 +61,7 @@ export default class Card {
 
     const likeButton = this._element.querySelector(".card__like");
     likeButton.addEventListener("click", (evt) => {
-      const LikeButtonActive = this._element
-        .querySelector(".card__like")
-        .classList.contains("card__like_active");
-
-      this._handleLikeClick(
-        LikeButtonActive,
-        this._id,
-        this._element.querySelector(".card__like-counter")
-      );
+      this._handleLikeClick();
     });
 
     const imageElement = this._element.querySelector(".card__item");
@@ -72,9 +70,9 @@ export default class Card {
     });
   }
 
-  _handleLike(evt) {
-    evt.target.classList.toggle("card__like_active");
-  }
+  // _handleLike(evt) {
+  //   evt.target.classList.toggle("card__like_active");
+  // }
 
   handleDelete() {
     this._element.remove();
@@ -83,15 +81,15 @@ export default class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._setEventListeners();
-    this._updateView();
+    this._toggleDeleteButton();
     const cardItem = this._element.querySelector(".card__item");
     cardItem.src = this._link;
     cardItem.alt = this._name;
     const cardText = this._element.querySelector(".card__text");
     cardText.textContent = this._name;
     this._heartButton = this._element.querySelector(".card__like");
-    this._likeSelector = this._element.querySelector(".card__like-counter");
-    this._likeSelector.textContent = this._likes.length;
+    this._likesCounter = this._element.querySelector(".card__like-counter");
+    this._likesCounter.textContent = this._likes.length;
 
     if (this._likes.some((item) => item._id === this._userId)) {
       this._heartButton.classList.add("card__like_active");
