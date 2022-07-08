@@ -74,21 +74,6 @@ const editProfileFormPopup = new PopupWithForm({
 editProfileFormPopup.setEventListeners();
 const popupWithDeleteConfirm = new PopupWithDeleteConfirm({
   popupSelector: selectors.confirmDeleteForm,
-  handleClick: (card) => {
-    renderLoading(true, "delete");
-    api
-      .removeCard(card.getId())
-      .then((res) => {
-        card.handleDelete();
-        hideModal(confirmDeleteModal);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        renderLoading(false, "delete");
-      });
-  },
 });
 popupWithDeleteConfirm.setEventListeners();
 api
@@ -119,7 +104,21 @@ api
                 cardPreviewPopup.open(imgData);
               },
               handleDeleteCardClick: (data) => {
-                popupWithDeleteConfirm.open(card);
+                popupWithDeleteConfirm.open(() => {
+                  renderLoading(true, "delete");
+                  api
+                    .removeCard(card.getId())
+                    .then((res) => {
+                      card.handleDelete();
+                      hideModal(confirmDeleteModal);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    })
+                    .finally(() => {
+                      renderLoading(false, "delete");
+                    });
+                });
               },
               handleLikeClick: () => {
                 api
