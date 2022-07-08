@@ -4,6 +4,7 @@ export default class Card {
     cardSelector,
     user
   ) {
+    this._data = data;
     this._name = data.name;
     this._link = data.link;
     this._cardOwnerId = data.owner._id;
@@ -22,19 +23,13 @@ export default class Card {
   }
 
   isLiked() {
-    // return this._element
-    //   .querySelector(".card__like")
-    //   .classList.contains("card__like_active");
-
-    return this._likes.some((like) => {
-      like._id === this._userId;
-    });
+    const liked = (like) => like._id === this._userId;
+    return this._likes.some(liked);
   }
 
   setLikes(res) {
-    // this._heartButton.classList.toggle("card__like_active");
-    // this._likesCounter.textContent = res.likes.length;
-    this._likes = res;
+    this._likes = res.likes;
+
     this._renderLikes();
   }
 
@@ -70,10 +65,6 @@ export default class Card {
     });
   }
 
-  // _handleLike(evt) {
-  //   evt.target.classList.toggle("card__like_active");
-  // }
-
   handleDelete() {
     this._element.remove();
   }
@@ -81,10 +72,8 @@ export default class Card {
   _renderLikes() {
     this._likesCounter.textContent = this._likes.length;
     if (this.isLiked()) {
-      // add active class to like button
       this._heartButton.classList.add("card__like_active");
     } else {
-      // remove active class from like button
       this._heartButton.classList.remove("card__like_active");
     }
   }

@@ -132,7 +132,6 @@ api
                 api
                   .toggleLike(card.getId(), card.isLiked())
                   .then((res) => {
-                    console.log(res);
                     card.setLikes(res);
                   })
                   .catch((err) => {
