@@ -89,12 +89,8 @@ export default class Card {
     cardText.textContent = this._name;
     this._heartButton = this._element.querySelector(".card__like");
     this._likesCounter = this._element.querySelector(".card__like-counter");
-    this._likesCounter.textContent = this._likes.length;
-    this._renderLikes();
 
-    if (this._likes.some((item) => item._id === this._userId)) {
-      this._heartButton.classList.add("card__like_active");
-    }
+    this._renderLikes();
 
     return this._element;
   }

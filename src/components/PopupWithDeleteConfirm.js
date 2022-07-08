@@ -7,16 +7,27 @@ export default class PopupWithDeleteConfirm extends Popup {
     this._button = document.querySelector(".popup__button-confirm");
   }
 
-  open(card) {
+  // open(card) {
+  //   super.open();
+  //   this._card = card;
+  // }
+  open(onConfirm) {
+    this._onConfirm = onConfirm;
     super.open();
-    this._card = card;
   }
 
+  // setEventListeners() {
+  //   super.setEventListeners();
+  //   this._button.addEventListener("click", (e) => {
+  //     e.preventDefault();
+  //     this._handleClick(this._card);
+  //   });
+  // }
   setEventListeners() {
-    super.setEventListeners();
     this._button.addEventListener("click", (e) => {
       e.preventDefault();
-      this._handleClick(this._card);
+      this._onConfirm();
     });
+    super.setEventListeners();
   }
 }

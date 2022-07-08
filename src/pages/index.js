@@ -43,20 +43,6 @@ const currentUserInfo = new UserInfo({
   userDescriptionElement: userDescriptionElement,
 });
 
-api
-  .getUserInfo()
-  .then((userData) => {
-    currentUserInfo.setUserInfo({
-      userName: userData.name,
-      userDescription: userData.about,
-      userId: userData._id,
-      userAvatar: userData.avatar,
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
 cardPreviewPopup.setEventListeners();
 const editProfileFormPopup = new PopupWithForm({
@@ -107,7 +93,14 @@ const popupWithDeleteConfirm = new PopupWithDeleteConfirm({
 popupWithDeleteConfirm.setEventListeners();
 api
   .getUserInfo()
+
   .then((user) => {
+    currentUserInfo.setUserInfo({
+      userName: user.name,
+      userDescription: user.about,
+      userId: user._id,
+      userAvatar: user.avatar,
+    });
     api
       .getCardList()
       .then((cards) => {
