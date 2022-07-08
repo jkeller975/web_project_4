@@ -56,7 +56,7 @@ const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
 const editProfileFormPopup = new PopupWithForm({
   popupSelector: selectors.profileForm,
   handleFormSubmit: () => {
-    renderLoading(true, "editProfile");
+    renderLoading(true, "profile");
     api
       .setUserInfo({
         name: nameInputField.value,
@@ -72,7 +72,7 @@ const editProfileFormPopup = new PopupWithForm({
         hideModal(editProfileModal);
       })
       .finally(() => {
-        renderLoading(false, "editProfile");
+        renderLoading(false, "profile");
       });
   },
 });
@@ -120,7 +120,7 @@ api.getUserInfo().then((user) => {
     const createPlaceFormPopup = new PopupWithForm({
       popupSelector: selectors.placeForm,
       handleFormSubmit: (data) => {
-        renderLoading(true, "addCard");
+        renderLoading(true, "card");
         const newData = { name: data.title, link: data.url };
         api
           .addCard(newData)
@@ -132,7 +132,7 @@ api.getUserInfo().then((user) => {
             createPlaceFormPopup.close();
           })
           .finally(() => {
-            renderLoading(false, "addCard");
+            renderLoading(false, "card");
           });
       },
     });
@@ -173,7 +173,7 @@ function fillProfileForm() {
 const editAvatarFormPopup = new PopupWithForm({
   popupSelector: selectors.avatarPopup,
   handleFormSubmit: (avatar) => {
-    renderLoading(true, "editAvatar");
+    renderLoading(true, "avatar");
     api
       .setUserAvatar({ avatar: avatar.url })
       .then((result) => {
@@ -189,7 +189,7 @@ const editAvatarFormPopup = new PopupWithForm({
         editAvatarFormPopup.close();
       })
       .finally(() => {
-        renderLoading(false, "editAvatar");
+        renderLoading(false, "avatar");
       });
   },
 });
@@ -200,7 +200,7 @@ avatarEdit.addEventListener("click", () => {
 });
 
 function renderLoading(isLoading, popupId) {
-  const currentButton = document.querySelector(`.${popupId}__button`);
+  const currentButton = document.querySelector(`.popup__button-${popupId}`);
   if (isLoading) {
     currentButton.textContent = "Saving...";
   } else {
