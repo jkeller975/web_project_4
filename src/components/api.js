@@ -4,6 +4,10 @@ export default class Api {
     this._authToken = authToken;
   }
 
+  initial() {
+    return Promise.all([this.getUserInfo(), this.getCardList()]);
+  }
+
   getCardList() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {

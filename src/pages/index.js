@@ -56,6 +56,7 @@ const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
 const editProfileFormPopup = new PopupWithForm({
   popupSelector: selectors.profileForm,
   handleFormSubmit: () => {
+    renderLoading(true, "editProfile");
     api
       .setUserInfo({
         name: nameInputField.value,
@@ -69,6 +70,9 @@ const editProfileFormPopup = new PopupWithForm({
         });
 
         hideModal(editProfileModal);
+      })
+      .finally(() => {
+        renderLoading(false, "editProfile");
       });
   },
 });
@@ -116,14 +120,20 @@ api.getUserInfo().then((user) => {
     const createPlaceFormPopup = new PopupWithForm({
       popupSelector: selectors.placeForm,
       handleFormSubmit: (data) => {
+        renderLoading(true, "addCard");
         const newData = { name: data.title, link: data.url };
-        api.addCard(newData).then((newData) => {
-          renderCard(newData);
+        api
+          .addCard(newData)
+          .then((newData) => {
+            renderCard(newData);
 
-          const button = addCardModal.querySelector(".popup__button");
-          addFormValidator.disableSubmitButton(button);
-          createPlaceFormPopup.close();
-        });
+            const button = addCardModal.querySelector(".popup__button");
+            addFormValidator.disableSubmitButton(button);
+            createPlaceFormPopup.close();
+          })
+          .finally(() => {
+            renderLoading(false, "addCard");
+          });
       },
     });
     addButton.addEventListener("click", () => {
@@ -148,10 +158,6 @@ const editAvatarFormValidator = new FormValidator(
 
 cardPreviewPopup.setEventListeners();
 
-addFormValidator.enableValidation();
-editFormValidator.enableValidation();
-editAvatarFormValidator.enableValidation();
-
 editButton.addEventListener("click", () => {
   editProfileFormPopup.setEventListeners();
   showModal(editProfileModal);
@@ -167,18 +173,24 @@ function fillProfileForm() {
 const editAvatarFormPopup = new PopupWithForm({
   popupSelector: selectors.avatarPopup,
   handleFormSubmit: (avatar) => {
-    api.setUserAvatar({ avatar: avatar.url }).then((result) => {
-      currentUserInfo.setUserAvatar(avatar.url);
-      currentUserInfo.setUserInfo({
-        ...currentUserInfo.getUserInfo(),
-        userAvatar: avatar.url,
+    renderLoading(true, "editAvatar");
+    api
+      .setUserAvatar({ avatar: avatar.url })
+      .then((result) => {
+        currentUserInfo.setUserAvatar(avatar.url);
+        currentUserInfo.setUserInfo({
+          ...currentUserInfo.getUserInfo(),
+          userAvatar: avatar.url,
+        });
+
+        const button = avatarPopup.querySelector(".popup__button");
+        editAvatarFormValidator.disableSubmitButton(button);
+
+        editAvatarFormPopup.close();
+      })
+      .finally(() => {
+        renderLoading(false, "editAvatar");
       });
-
-      const button = addCardModal.querySelector(".popup__button");
-      editAvatarFormValidator.disableSubmitButton(button);
-
-      editAvatarFormPopup.close();
-    });
   },
 });
 
@@ -186,3 +198,16 @@ avatarEdit.addEventListener("click", () => {
   editAvatarFormPopup.setEventListeners();
   showModal(avatarPopup);
 });
+
+function renderLoading(isLoading, popupId) {
+  const currentButton = document.querySelector(`.${popupId}__button`);
+  if (isLoading) {
+    currentButton.textContent = "Saving...";
+  } else {
+    currentButton.textContent = "Save";
+  }
+}
+
+addFormValidator.enableValidation();
+editFormValidator.enableValidation();
+editAvatarFormValidator.enableValidation();

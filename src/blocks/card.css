@@ -36,6 +36,7 @@
   width: 100%;
   max-width: 21px;
   height: 19px;
+
   margin: auto 18px auto 3px;
   border: none;
   cursor: pointer;
@@ -84,4 +85,5 @@
   text-align: center;
   margin: 0;
   color: #000000;
+  padding-right: 5px;
 }
